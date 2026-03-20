@@ -6,7 +6,7 @@ import requests
 
 app = Flask(__name__)
 
-BOT_TOKEN = os.environ.get("BOT_TOKEN")
+BOT_TOKEN = os.environ.get("7833088741:AAG7qDgQ4Qe81lxvDeQkOjdnSteuJv1NhOg")
 WIDTH = 135
 HEIGHT = 240
 
