@@ -1,1 +1,33 @@
+name: Deploy Bot
 
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v2
+    
+    - name: Setup Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.10'
+    
+    - name: Install dependencies
+      run: pip install -r requirements.txt
+    
+    - name: Run bot
+      env:
+        BOT_TOKEN: ${{ secrets.BOT_TOKEN }}
+      run: |
+        # Запускаем бота в фоне
+        nohup python bot.py &
+        # Ждем запуска
+        sleep 5
+        # Настраиваем вебхук
+        curl -X POST "https://api.telegram.org/bot${BOT_TOKEN}/setWebhook" \
+          -d "url=https://your-tunnel.ngrok.io/${BOT_TOKEN}"
